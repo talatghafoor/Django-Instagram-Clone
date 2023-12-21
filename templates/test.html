@@ -11,6 +11,8 @@
                         </svg>
                     </button>
                     <div class="stories__content">
+
+
                         <button class="story">
                             <div class="story__avatar">
                                 <div class="story__border">
@@ -109,14 +111,18 @@
                         </svg>
                     </button>
                 </div>
+
                 <div class="posts">
                     {% for post in post_items %}
                     <article class="post">
-                        <div class="post__header">   
+                        <div class="post__header">
+                            
                                 <div class="post__profile">
                                     {% if post.user.profile.image %}
                                     <a href="{{post.user.profile.image.url}}" class="post__avatar">
-                                        <img src="{{post.user.profile.image.url}}" alt="User Picture"> 
+                                        
+                                        <img src="{{post.user.profile.image.url}}" alt="User Picture">
+                                        
                                     </a>
                                     {% endif %}
                                     <a href="{{post.user.username}}" class="post__user">{{ post.user.username }}</a>
@@ -246,6 +252,7 @@
                     </div>
                     <a class="side-menu__user-button">View Profile</a>
                 </div>
+
                 <div class="side-menu__suggestions-section">
                     <div class="side-menu__suggestions-header">
                         <h2>Suggestions for You</h2>
