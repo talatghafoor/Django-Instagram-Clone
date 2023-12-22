@@ -6,7 +6,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db import transaction
 from accounts.models import Profile
-
+from comment.models import Comment
+from comment.forms import NewCommentForm
 # Create your views here.
 
 def index(request):
@@ -19,9 +20,8 @@ def index(request):
     context ={
         'post_items' : post_items
     }
-
-
     return render(request, 'index.html', context)
+
 
 def NewPost(request):
     user = request.user
@@ -52,9 +52,25 @@ def NewPost(request):
 
 
 def PostDetail(request, post_id):
+    user = request.user
     post = get_object_or_404(Post, id=post_id)
+    comments = Comment.objects.filter(post=post).order_by('-date')
+
+    if request.method == "POST":
+        form = NewCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = user
+            comment.save()
+            return HttpResponseRedirect(reverse('post-details', args=[post.id]))
+    else:
+        form = NewCommentForm()
+
     context = {
-        'post' : post
+        'post' : post,
+        'form' :form,
+        'comments':comments,
     }
 
     return render(request, 'postdetail.html', context)

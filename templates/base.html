@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Instagram</title>
     <meta charset="utf-8">
@@ -13,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets1/style.css' %}">
     <script src="{% static 'assets1/script.js' %}" defer></script>
 </head>
-
 <body>
     <header class="header">
         <nav class="header__content">
@@ -91,26 +89,21 @@
                         <path d="M15.75 13.0671C16.0833 13.2595 16.0833 13.7407 15.75 13.9331L10.5 16.9642C10.1667 17.1566 9.75 16.9161 9.75 16.5312L9.75 10.469C9.75 10.0841 10.1667 9.84354 10.5 10.036L15.75 13.0671Z" fill="var(--text-dark)"/>
                     </svg>
                 </a>
-
-
-
-
-
                 <span>
                     <a href="#">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.4995 21.2609C11.1062 21.2609 10.7307 21.1362 10.4133 20.9001C8.2588 19.3012 3.10938 15.3239 1.81755 12.9143C0.127895 9.76543 1.14258 5.72131 4.07489 3.89968C5.02253 3.31177 6.09533 3 7.18601 3C8.81755 3 10.3508 3.66808 11.4995 4.85726C12.6483 3.66808 14.1815 3 15.8131 3C16.9038 3 17.9766 3.31177 18.9242 3.89968C21.8565 5.72131 22.8712 9.76543 21.186 12.9143C19.8942 15.3239 14.7448 19.3012 12.5902 20.9001C12.2684 21.1362 11.8929 21.2609 11.4995 21.2609ZM7.18601 4.33616C6.34565 4.33616 5.5187 4.57667 4.78562 5.03096C2.43888 6.49183 1.63428 9.74316 2.99763 12.2819C4.19558 14.5177 9.58639 18.6242 11.209 19.8267C11.3789 19.9514 11.6158 19.9514 11.7856 19.8267C13.4082 18.6197 18.799 14.5133 19.997 12.2819C21.3603 9.74316 20.5557 6.48738 18.209 5.03096C17.4804 4.57667 16.6534 4.33616 15.8131 4.33616C14.3425 4.33616 12.9657 5.04878 12.0359 6.28696L11.4995 7.00848L10.9631 6.28696C10.0334 5.04878 8.6611 4.33616 7.18601 4.33616Z" fill="var(--text-dark)" stroke="var(--text-dark)" stroke-width="0.6"/>
                         </svg>
-                    
                     </a>
                 </span>
-                
                 <a href="">
                     <button class="profile-button">
                         <div class="profile-button__border"></div>
-                        <a href="#">
+                        <a href="{% url 'profile' user %}"> 
                             <div class="profile-button__picture">
-                                <img src="#" alt="User Picture">
+                                {% if profile.image %}
+                                <img src="{{ profile.image.url }}" alt="{{ user.username }}'s Profile Image">
+                                {% endif %}
                             </div>
                         </a>
                     </button>
@@ -118,13 +111,8 @@
             </div>
         </nav>
     </header>
-
-
     {% block content %}
-    {% endblock content %}
-
-
-                
+    {% endblock content %}  
             </section>
         </section>
     </main>
