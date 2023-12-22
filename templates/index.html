@@ -233,7 +233,7 @@
 
             <section class="side-menu">
                 <div class="side-menu__user-profile">
-                    <a href="https://github.com/leocosta1" target="_blank" class="side-menu__user-avatar">
+                    <a href="{{request.user.username}}" target="_blank" class="side-menu__user-avatar">
                         <img src="{{ request.user.profile.image.url }}" alt="User Picture">
                     </a>
                     <div class="side-menu__user-info">
@@ -244,12 +244,12 @@
                         {% endif %}
                         <span>@{{request.user.username}}</span>
                     </div>
-                    <a class="side-menu__user-button">View Profile</a>
+                    
                 </div>
                 <div class="side-menu__suggestions-section">
                     <div class="side-menu__suggestions-header">
                         <h2>Suggestions for You</h2>
-                        <button>See All</button>
+                        
                     </div>
                     <div class="side-menu__suggestions-content">
                         {% for user in all_users %}

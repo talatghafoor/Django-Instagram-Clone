@@ -40,7 +40,7 @@
                         <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5>
 
                         {% if request.user.is_authenticated and request.user == profile.user %}
-                        <a style="text-decoration: none;" href="# url 'editprofile' %}" class="btn profile-edit-btn">Edit Profile</a>
+                        <a style="text-decoration: none;" href="{% url 'editprofile' %}" class="btn profile-edit-btn">Edit Profile</a>
                         <a style="text-decoration: none;" href="# url 'sign-out' %}" class="btn profile-edit-btn">Logout</a>
                         <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
@@ -49,7 +49,7 @@
                         <br><br>
                         {% if request.user.is_authenticated and request.user != profile.user %}
                             {% if follow_status == True %}
-                                <a href="# url 'follow' profile.user 0 %}" class="btn profile-edit-btn" style="color: red;">Unfollow</a> <br><br>
+                                <a href="{% url 'follow' profile.user 0 %}" class="btn profile-edit-btn" style="color: red;">Unfollow</a> <br><br>
                             {% else %}
                                 <a href="{%  url 'follow' profile.user 1 %}" class="btn profile-edit-btn" style="color: green;">Follow</a> <br><br>
                             {% endif %}

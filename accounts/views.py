@@ -7,6 +7,7 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
+from accounts.forms import EditProfileForm
 from django.contrib.auth import authenticate, login
 
 
@@ -48,7 +49,48 @@ def UserProfile(request, username):
         'posts_count': posts_count,
         'following_count': following_count,
         'follow_status': follow_status,
+        'followers_count': followers_count,
     }
 
     return render(request, 'profile.html', context)
 
+
+def follow(request, username, option):
+    user = request.user
+    following = get_object_or_404(User, username=username)
+
+    try:
+        f, created = Follow.objects.get_or_create(follower=request.user, following=following)
+        if int(option) == 0:
+            f.delete()
+            Stream.objects.filter(following=following, user=request.user).all().delete()
+        else:
+            posts = Post.objects.all().filter(user=following)[:25]
+            with transaction.atomic():
+                for post in posts:
+                    stream = Stream(post=post, user=request.user, date=post.posted, following=following)
+                    stream.save()
+        return HttpResponseRedirect(reverse('profile', args=[username]))
+    except User.ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('profile', args=[username]))
+
+
+
+def EditProfile(request):
+    user_id = request.user.id
+    profile = get_object_or_404(Profile, user_id=user_id)
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            for field in ['image', 'first_name', 'last_name', 'location', 'url', 'bio']:
+                setattr(profile, field, form.cleaned_data.get(field))
+            profile.save()
+            return redirect('profile', profile.user.username)
+    else:
+        form = EditProfileForm(instance=profile)
+
+    context = {'form': form}
+    return render(request, 'editprofile.html', context)
+
+
+    
