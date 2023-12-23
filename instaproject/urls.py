@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('post.urls')),
     path('profile/', include('accounts.urls')),
+    path('message/', include('chat.urls')),
     
 
     #Profile 

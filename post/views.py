@@ -8,17 +8,21 @@ from django.db import transaction
 from accounts.models import Profile
 from comment.models import Comment
 from comment.forms import NewCommentForm
-# Create your views here.
+from accounts.models import Profile
 
+
+# Create your views here.
 def index(request):
     user = request.user
     posts = Stream.objects.filter(user=user)
+    users = Profile.objects.all()
     group_ids = []
     for post in posts:
         group_ids.append(post.post_id)
     post_items = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context ={
-        'post_items' : post_items
+        'post_items' : post_items,
+        'users':users,
     }
     return render(request, 'index.html', context)
 
