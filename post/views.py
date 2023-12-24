@@ -9,24 +9,45 @@ from accounts.models import Profile
 from comment.models import Comment
 from comment.forms import NewCommentForm
 from accounts.models import Profile
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 # Create your views here.
+@login_required
 def index(request):
     user = request.user
-    posts = Stream.objects.filter(user=user)
+    user = request.user
     users = Profile.objects.all()
+    all_users = User.objects.all()
+    follow_status = Follow.objects.filter(following=user, follower=request.user).exists()
+
+    profile = Profile.objects.all()
+
+    posts = Stream.objects.filter(user=user)
     group_ids = []
     for post in posts:
-        group_ids.append(post.post_id)
+        group_ids.append(post.post_id)  
     post_items = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
-    context ={
-        'post_items' : post_items,
-        'users':users,
+    query = request.GET.get('q')
+    if query:
+        users = User.objects.filter(Q(username__icontains=query))
+        paginator = Paginator(users, 6)
+        page_number = request.GET.get('page')
+        users_paginator = paginator.get_page(page_number)
+    context = {
+        'post_items': post_items,
+        'follow_status': follow_status,
+        'profile': profile,
+        'all_users': all_users,
+        'users': users,
+        # 'users_paginator': users_paginator,
     }
     return render(request, 'index.html', context)
 
 
+@login_required
 def NewPost(request):
     user = request.user
     # profile = get_object_or_404(Profile, user=user)
@@ -54,7 +75,7 @@ def NewPost(request):
     }
     return render(request, 'newpost.html', context)
 
-
+@login_required
 def PostDetail(request, post_id):
     user = request.user
     post = get_object_or_404(Post, id=post_id)
@@ -80,7 +101,7 @@ def PostDetail(request, post_id):
     return render(request, 'postdetail.html', context)
 
     
-
+@login_required
 def Tags(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
     posts = Post.objects.filter(tags=tag).order_by('-posted')
@@ -92,7 +113,7 @@ def Tags(request, tag_slug):
     }
     return render(request, 'tag.html', context)
 
-@transaction.atomic
+@login_required
 def Like(request, post_id):
     user = request.user
     post = get_object_or_404(Post, id=post_id)
@@ -110,7 +131,7 @@ def Like(request, post_id):
 
     return HttpResponseRedirect(reverse('post-details', args=[post_id]))
 
-
+@login_required
 def favourite(request, post_id):
     user = request.user
     post = Post.objects.get(id=post_id)

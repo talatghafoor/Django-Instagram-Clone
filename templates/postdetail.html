@@ -43,10 +43,7 @@
     <main class="main-container">
         <section class="content-container">
             <div class="contendt">
-
-
                 <div class="posts">
-
                     <article class="post">
                         <div class="post__header">
                             <div class="post__profile">
@@ -55,7 +52,6 @@
                                 </a>
                                 <a href="{% url 'profile' post.user %}" class="post__user">@{{ post.user.username }}</a>
                             </div>
-
                             <button class="post__more-options">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="6.5" cy="11.5" r="1.5" fill="var(--text-dark)"/>
@@ -64,16 +60,13 @@
                                 </svg>
                             </button>
                         </div>
-
                         <div class="post__content">
                             <div class="post__medias">
                                 <a href="{% url 'post-details' post.id %}"><img class="post__media" src="{{ post.picture.url }}" alt="Post Content" style="width:1000%; object-fit: contain;"></a><!--                                <img class="post__media" src="{% static 'assets1/insta-clone.png' %}" alt="Post Content">--><!--                                <img class="post__media" src="{% static 'assets1/insta-clone.png' %}" alt="Post Content">-->
                             </div>
                         </div>
-
                         <div class="post__footer">
                             <div class="post__buttons">
-
                                 <a href="{% url 'like' post.id %}" class="post__button">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M11.4995 21.2609C11.1062 21.2609 10.7307 21.1362 10.4133 20.9001C8.2588 19.3012 3.10938 15.3239 1.81755 12.9143C0.127895 9.76543 1.14258 5.72131 4.07489 3.89968C5.02253 3.31177 6.09533 3 7.18601 3C8.81755 3 10.3508 3.66808 11.4995 4.85726C12.6483 3.66808 14.1815 3 15.8131 3C16.9038 3 17.9766 3.31177 18.9242 3.89968C21.8565 5.72131 22.8712 9.76543 21.186 12.9143C19.8942 15.3239 14.7448 19.3012 12.5902 20.9001C12.2684 21.1362 11.8929 21.2609 11.4995 21.2609ZM7.18601 4.33616C6.34565 4.33616 5.5187 4.57667 4.78562 5.03096C2.43888 6.49183 1.63428 9.74316 2.99763 12.2819C4.19558 14.5177 9.58639 18.6242 11.209 19.8267C11.3789 19.9514 11.6158 19.9514 11.7856 19.8267C13.4082 18.6197 18.799 14.5133 19.997 12.2819C21.3603 9.74316 20.5557 6.48738 18.209 5.03096C17.4804 4.57667 16.6534 4.33616 15.8131 4.33616C14.3425 4.33616 12.9657 5.04878 12.0359 6.28696L11.4995 7.00848L10.9631 6.28696C10.0334 5.04878 8.6611 4.33616 7.18601 4.33616Z" fill="var(--text-dark)" stroke="var(--text-dark)" stroke-width="0.6"/>
@@ -101,7 +94,7 @@
 
                             <div class="post__infos">
                                 <div class="post__likes">
-                                    <a href="#" class="post__likes-avatar"><!--                                        <img src="assets1/default-user.png" alt="User Picture">-->
+                                    <a href="#" class="post__likes-avatar">
                                     </a>
                                     <span>{{post.likes}} <a class="post__name--underline" href="#">likes</a> <a href="#"></a></span>
                                 </div>
@@ -133,18 +126,17 @@
                                                         <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
                                                     </div>
                                                 </form>
-                                                
                                                 {% for comment in comments %}
-                                                    <div class="bg-white p-2">
-                                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" width="30" height="30">
-                                                            <a href="{% url 'profile' comment.user %}" style="text-decoration: none;">
-                                                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
-                                                        </div>
-                                                        <div class="mt-2">
-                                                            <p class="comment-text">{{ comment.body }}</p>
-                                                        </div>
+                                                <div class="bg-white p-2">
+                                                    <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" width="30" height="30">
+                                                        <a href="{% url 'profile' comment.user %}" style="text-decoration: none;">
+                                                        <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
                                                     </div>
-                                                {% endfor %}
+                                                    <div class="mt-2">
+                                                        <p class="comment-text">{{ comment.body }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
                                                 
                                                 
                                             </div>

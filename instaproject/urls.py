@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('post.urls')),
     path('profile/', include('accounts.urls')),
     path('message/', include('chat.urls')),
+    path('notifications/', include('notification.urls')),
     
 
     #Profile 
